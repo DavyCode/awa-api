@@ -38,7 +38,7 @@ class AuthService {
     );
 
     // send verification email
-    await sendMail.sendVerifyEmailToken(email, `${CLIENT_HOST}/email_verify?emailToken=${updatedUser.emailVerificationToken}&email=${updatedUser.email}`);
+    await sendMail.sendVerifyEmailToken(email, updatedUser.firstName, `${CLIENT_HOST}/email_verify?emailToken=${updatedUser.emailVerificationToken}&email=${updatedUser.email}`);
 
     return { message: 'Check your email for verification link' };
   }

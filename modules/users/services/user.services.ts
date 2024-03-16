@@ -51,7 +51,7 @@ class UsersService implements CRUD {
   }
 
   async create(resource: CreateUserDto) {
-    const { phoneNumber, email, referredBy } = resource
+    const { phoneNumber, email, referredBy, firstName } = resource
 
     const phoneDetails = getPhoneDetails(phoneNumber);
 		if (!phoneDetails.fullPhone || phoneDetails.regionCode == "null") {
@@ -105,7 +105,7 @@ class UsersService implements CRUD {
       emailExist.updatedAt = Date.now();
       const userEmailToken: any = await UsersDao.save(emailExist)
 
-      await sendMail.sendVerifyEmailToken(email, `${CLIENT_HOST}/email_verify?emailToken=${userEmailToken.emailVerificationToken}&email=${userEmailToken.email}`);
+      await sendMail.sendVerifyEmailToken(email, firstName, `${CLIENT_HOST}/email_verify?emailToken=${userEmailToken.emailVerificationToken}&email=${userEmailToken.email}`);
 
       throw new BadRequestError(
         'Email not verified. Check your email for verification link',
@@ -136,7 +136,7 @@ class UsersService implements CRUD {
     //   phone: `${newUser.phoneNumber}`
     // })
 
-    await sendMail.sendVerifyEmailToken(email, `${CLIENT_HOST}/email_verify?emailToken=${newUser.emailVerificationToken}&email=${newUser.email}`);
+    await sendMail.sendVerifyEmailToken(email, firstName, `${CLIENT_HOST}/email_verify?emailToken=${newUser.emailVerificationToken}&email=${newUser.email}`);
     
     return {
       message: 'Verify your account. Check your phone for verification OTP',

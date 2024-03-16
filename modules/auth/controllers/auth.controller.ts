@@ -39,7 +39,7 @@ class AuthController {
       user.updatedAt = Date.now();
       const userEmailToken: any = await UsersDao.save(user)
 
-      await sendMail.sendVerifyEmailToken(user.email, `${CLIENT_HOST}/email_verify?emailToken=${userEmailToken.emailVerificationToken}&email=${userEmailToken.email}`);
+      await sendMail.sendVerifyEmailToken(user.email, user.firstName, `${CLIENT_HOST}/email_verify?emailToken=${userEmailToken.emailVerificationToken}&email=${userEmailToken.email}`);
 
       throw new BadRequestError(
         'Email not verified. Check your email for verification link',
