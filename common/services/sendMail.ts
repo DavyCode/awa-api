@@ -14,15 +14,34 @@ class SendMailServices {
    * sendConfirmPassChanged
    * @param email string
    */
-  async sendConfirmPassChanged(email: string) {
+  async sendConfirmPassChanged(email: string, name: string) {
     const mes = `
-    <h3>Hello.</h3>
-    <p>Your password was changed</p>
+    <h4>Dear ${name},</h4>
+    <p>
+      We're reaching out to inform you that the password for your Awabah account has been successfully changed.
+    </p>
 
-    <p>Contact support if it was not you.</p>
+    <p>
+      If you did not initiate this change or believe your account may have been compromised, 
+      please contact us immediately at support@awabahng.com or call us on 02012296733. 
+      Our team will assist you in securing your account.
+    </p>
+
+    <p>
+      If you did change your password, you can disregard this email.
+    </p>
+
+    <p>Thank you.</p>
+
+    <p>Best regards,</p>
+    <p>The Awabah Team</p>
     `;
 
-    await NodemailerService.sendMail(email, 'Password Changed', mes);
+    await NodemailerService.sendMail(
+      email,
+      'Your Password Has Been Successfully Changed',
+      mes,
+    );
   }
 
   /**
@@ -47,7 +66,6 @@ class SendMailServices {
     `;
     await NodemailerService.sendMail(email, 'Password Reset OTP', mes);
   }
-  
 }
 
 export default new SendMailServices();

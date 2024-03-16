@@ -217,7 +217,7 @@ class UsersService implements CRUD {
 
     // send confirmation email
     if (user.email) {
-      await sendMail.sendConfirmPassChanged(user.email);
+      await sendMail.sendConfirmPassChanged(user.email, user.name);
     }
 
     return { message: 'Password reset successful' };
