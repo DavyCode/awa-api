@@ -60,11 +60,11 @@ class UsersService implements CRUD {
 			);
 		}
 
-    // const phoneExist: any = await UsersDao.findOne({ phoneNumber: phoneDetails.fullPhone })
+    const phoneExist: any = await UsersDao.findOne({ phoneNumber: phoneDetails.fullPhone })
     
-    // if (phoneExist && phoneExist.phoneVerified) {
-    //   throw new ForbiddenError('Phone Number already taken');
-    // }
+    if (phoneExist && phoneExist.phoneVerified) {
+      throw new ForbiddenError('Phone Number already taken');
+    }
 
     // if (phoneExist && !phoneExist.phoneVerified && phoneExist.verifyPhoneOtpTimer && new Date(phoneExist.verifyPhoneOtpTimer) > new Date()) {
     //   throw new BadRequestError('Wait after 2 mins to request new verification OTP');
