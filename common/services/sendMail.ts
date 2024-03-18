@@ -68,7 +68,7 @@ class SendMailServices {
         we kindly ask you to verify your email address by clicking on the link below:
       </p>
       
-      <a href="${verificatonLink}">CLICK HERE</a> or 
+      <p><a href="${verificatonLink}">CLICK HERE</a> or ${verificatonLink}</p
 
       <p> Please Note: This link may expire in 24 hours.</p>
 
