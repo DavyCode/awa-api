@@ -8,7 +8,6 @@ import {
 } from '../../../common/constant';
 import Utils from '../../../common/utils';
 import bcrypt from 'bcryptjs';
-import uniqueValidator from 'mongoose-unique-validator';
 
 import {
   MongooseObjectId,
@@ -118,9 +117,7 @@ class UsersDao {
       const hash = bcrypt.hashSync(val, salt);
       this.passwordHash = hash;
     });
-
-    this.userSchema.plugin(uniqueValidator, { message: '{PATH} already exist!' });
-  }
+}
 
   /**
    * comparePasswords
