@@ -73,20 +73,20 @@ class PlanDao {
 
   /**
    * putById
-   * @param referralId
+   * @param planId
    * @param planFields
    * @param option
    */
   async putById(
-    referralId: string | MongooseObjectId,
+    planId: string | MongooseObjectId,
     planFields: UpdatePlanDto,
     option?: MongooseUpdateOptions | null,
   ): Promise<any> {
-    if (!mongooseService.validMongooseObjectId(referralId)) {
+    if (!mongooseService.validMongooseObjectId(planId)) {
       return Promise.resolve(false);
     }
     return await this.Plan.findOneAndUpdate(
-      { _id: referralId },
+      { _id: planId },
       {
         $set: planFields,
         updatedAt: Date.now(),
@@ -105,7 +105,7 @@ class PlanDao {
   async put(
     query: any,
     update: any,
-    option: MongooseUpdateOptions,
+    option?: MongooseUpdateOptions,
   ): Promise<any> {
     if (query._id) {
       if (!mongooseService.validMongooseObjectId(query._id)) {
@@ -125,14 +125,14 @@ class PlanDao {
 
   /**
    * findById
-   * @param referralId ReferralDto
+   * @param planId
    * @public
    */
-  async findById(referralId: string | MongooseObjectId): Promise<any> {
-    if (!mongooseService.validMongooseObjectId(referralId)) {
+  async findById(planId: string | MongooseObjectId): Promise<any> {
+    if (!mongooseService.validMongooseObjectId(planId)) {
       return Promise.resolve(false);
     }
-    return await this.Plan.findOne({ _id: referralId }).exec();
+    return await this.Plan.findOne({ _id: planId }).exec();
   }
 
   /**
@@ -163,6 +163,15 @@ class PlanDao {
    */
   async savePlan(planInstance: PlanDocument) {
     return planInstance.save();
+  }
+
+  async delete(query: any) {
+    if (query._id) {
+      if (!mongooseService.validMongooseObjectId(query._id)) {
+        return Promise.resolve(false);
+      }
+    }
+    return await this.Plan.deleteOne(query).exec();
   }
 }
 

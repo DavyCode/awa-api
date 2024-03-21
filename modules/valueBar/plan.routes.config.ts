@@ -2,7 +2,10 @@ import express from 'express';
 import { CommonRoutesConfig } from '../../common/common.routes.config';
 import { API_BASE_URI } from '../../config/env';
 import ValidationMiddleware from './middleware/plan.validation.middleware';
-import planController from './controllers/plans.controller';
+import PlansController from './controllers/plans.controller';
+import AuthMiddleware from '../auth/middleware/auth.middleware';
+import UsersMiddleware from '../users/middleware/users.middleware';
+import JwtMiddleware from '../auth/middleware/jwt.middleware';
 
 export class PlanRoutes extends CommonRoutesConfig {
   constructor(app: express.Application) {
@@ -11,17 +14,28 @@ export class PlanRoutes extends CommonRoutesConfig {
 
   configureRoutes(): express.Application {
     this.app
-      .post(`${API_BASE_URI}/plans`, [
+    .route(`${API_BASE_URI}/plans`)
+    .all(
+        AuthMiddleware.ensureAuth,
+        UsersMiddleware.validateAuthUserExist,
+        JwtMiddleware.validJWTNeeded,
+    )
+    .post( 
         ValidationMiddleware.createPlanValidator,
-        planController.create,
-      ])
-      .get(`${API_BASE_URI}/plans`, [planController.findAll]);
+        PlansController.create,
+      )
+      .get(PlansController.findAll);
 
-    this.app.get(`${API_BASE_URI}/plans/:id`, [planController.findById]);
-
-    this.app.patch(`${API_BASE_URI}/plans/:id`, [planController.update]);
-
-    this.app.delete(`${API_BASE_URI}/plans/:id`, [planController.delete]);
+    this.app
+    .route(`${API_BASE_URI}/plans/:id`)
+    .all(
+        AuthMiddleware.ensureAuth,
+        UsersMiddleware.validateAuthUserExist,
+        JwtMiddleware.validJWTNeeded,
+    )
+    .get(PlansController.findById)
+    .patch(PlansController.update)
+    .delete(PlansController.delete);
 
     return this.app;
   }

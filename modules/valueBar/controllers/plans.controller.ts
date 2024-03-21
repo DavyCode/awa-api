@@ -13,9 +13,24 @@ class PlansController {
         const controllerRes = new apiOKResponse(plans, 'Plans retrieved');
         res.status(controllerRes.statusCode).send(controllerRes);
     }
-    async findById() {}
-    async update() {}
-    async delete() {}
+    async findById(req: Request, res: Response) {
+        const { id } = req.params;
+        const plan = await plansService.findById(id);
+        const controllerRes = new apiOKResponse(plan, 'Plan retrieved');
+        res.status(controllerRes.statusCode).send(controllerRes);
+    }
+    async update(req: Request, res: Response) {
+        const { id } = req.params;
+        const { message, ...rest } = await plansService.update(id, req.body);
+        const controllerRes = new apiOKResponse(rest, message);
+        res.status(controllerRes.statusCode).send(controllerRes);
+    }
+    async delete(req: Request, res: Response) {
+        const { id } = req.params;
+        await plansService.delete(id);
+        const controllerRes = new apiOKResponse({}, 'Plan deleted');
+        res.status(controllerRes.statusCode).send(controllerRes);
+    }
 }
 
 export default new PlansController()
