@@ -27,3 +27,8 @@ export enum HowDidYouHearAboutUs {
 	NEWS = "News",
 	EVENT = "Event",
 }
+
+export enum PlanInterval {
+	MONTH = "Month",
+	YEAR = "Year",
+}
