@@ -19,7 +19,10 @@ class PlanService {
     };
   }
 
-  async findAll() {}
+  async findAll() {
+    const plans = await plansDao.find({});
+    return {plans};
+  }
 
   async findById() {}
 
