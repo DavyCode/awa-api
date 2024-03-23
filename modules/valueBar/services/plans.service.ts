@@ -27,6 +27,10 @@ class PlanService {
 
   async findById(id: string) {
     const plan = await plansDao.findById(id);
+    if (!plan) {
+      throw new BadRequestError('Plan does not exist');
+    }
+
     return {plan};
   }
 
@@ -44,9 +48,9 @@ class PlanService {
     };
   }
 
-  delete(id: string) {
+  async delete(id: string) {
     
-    const planExists = plansDao.findById(id);
+    const planExists = await plansDao.findById(id);
 
     if (!planExists) {
       throw new BadRequestError('Plan does not exist');
