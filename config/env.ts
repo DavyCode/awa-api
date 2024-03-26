@@ -48,4 +48,6 @@ export const {
 
   // SMART_SMS_TOKEN,
   // SMART_SMS_URL
+  PENPAY_BASE_URL,
+  PENPAY_API_KEY
 } = process.env;
