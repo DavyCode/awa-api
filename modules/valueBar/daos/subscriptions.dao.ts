@@ -15,6 +15,12 @@ const log: debug.IDebugger = debug('app:subscription-dao');
 
 const MongooseSchema = mongooseService.getMongoose().Schema;
 
+export enum SubscriptionBeneficiaries {
+  SELF = "Self",
+  SELFANDOTHERS = "SelfAndOthers",
+  OTHERS = "Others"
+}
+
 export type BeneficiaryType = {
   first_name: string;
   last_name: string;
@@ -46,7 +52,8 @@ export type SubscriptionType = {
   endDate: Date;
   interval: PlanInterval;
   promoCode: string;
-  beneficiaries: object[];
+  beneficiaries: BeneficiaryType[];
+  subscribeFor: SubscriptionBeneficiaries;
   status: string;
 };
 
@@ -58,7 +65,23 @@ class SubscriptionDao {
   /**
    * Subscription Schema
    */
-  subscriptionSchema = new this.Schema({}, { timestamps: true });
+  subscriptionSchema = new this.Schema({
+    user: {
+      ref: "User",
+      type: MongooseSchema.Types.ObjectId,
+    },
+    plan: {
+      ref: "Plan",
+      type: MongooseSchema.Types.ObjectId,
+    },
+    amount: { type: Number },
+    endDate: { type: Date },
+    interval: { type: String, enum: PlanInterval },
+    promoCode: { type: String },
+    beneficiaries: [{}],
+    subscribeFor: { type: String, enum: SubscriptionBeneficiaries },
+    status: { type: String },
+  }, { timestamps: true });
 
   Subscription = mongooseService
     .getMongoose()
