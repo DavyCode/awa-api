@@ -18,6 +18,7 @@ import CheckHeaders from '../modules/auth/middleware/checkHeaders';
 import { CommonRoutesConfig } from '../common/common.routes.config';
 import { UsersRoutes } from '../modules/users/users.routes.config';
 import { AuthRoutes } from '../modules/auth/auth.routes.config';
+import { PlanRoutes } from '../modules/valueBar/plan.routes.config';
 
 import {
   logResponseBody,
@@ -98,6 +99,7 @@ app.use(expressWinston.logger(loggerOptions));
 
 routes.push(new UsersRoutes(app));
 routes.push(new AuthRoutes(app));
+routes.push(new PlanRoutes(app));
 
 app.get('/', (req: express.Request, res: express.Response) => {
   res.status(200).send('Full authentication is required');
